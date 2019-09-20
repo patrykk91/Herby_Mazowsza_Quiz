@@ -14,4 +14,5 @@
     <string name="results">%1$d odpowiedzi %2$.02f%% poprawnych</string>
     <string name="regions">Powiaty</string>
     <string name="regions_description">Powiaty, których ma dotyczyć quiz</string>
+    <string name="title_activity_settings">Ustawienia</string>
 </resources>
