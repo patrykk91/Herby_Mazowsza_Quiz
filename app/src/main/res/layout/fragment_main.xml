@@ -21,6 +21,25 @@
         android:contentDescription="@string/image_description"
         android:scaleType="fitCenter" />
 
+    <TextView
+        android:id="@+id/questionNumberTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="@dimen/spacing"
+        android:text="@string/question"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium" />
+
+
+    <TextView
+        android:id="@+id/guessPlaceTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/guess_place"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium" />
+
+
 
     <LinearLayout
         android:id="@+id/row1linearLayout"
@@ -100,7 +119,7 @@
 
     <LinearLayout
         android:id="@+id/row4linearLayout"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
@@ -125,33 +144,14 @@
 
 
     <TextView
-        android:id="@+id/questionNumberTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="clip_horizontal"
-        android:layout_marginBottom="@dimen/spacing"
-        android:text="@string/question"
-        android:textAppearance="@android:style/TextAppearance.Material.Medium" />
-
-
-    <TextView
-        android:id="@+id/guessPlaceTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="@string/guess_place"
-        android:textAppearance="@android:style/TextAppearance.Material.Medium" />
-
-    <TextView
         android:id="@+id/answerTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
+        android:layout_gravity="bottom|center"
         android:gravity="center_horizontal"
         android:text="TextView"
         android:textAppearance="@android:style/TextAppearance.Material.Medium"
         android:textSize="@dimen/answer_size"
         android:textStyle="bold" />
-
 
 </LinearLayout>

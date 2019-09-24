@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorAccent">#3F51B5</color>
 
     <color name="correct_answer">#00CC00</color>
     <color name="incorrect_answer">#FF0000</color>
