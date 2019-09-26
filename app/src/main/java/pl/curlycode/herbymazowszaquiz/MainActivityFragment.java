@@ -1,10 +1,16 @@
 package pl.curlycode.herbymazowszaquiz;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.SharedPreferences;
+import android.content.res.AssetManager;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -15,14 +21,18 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
 public class MainActivityFragment extends Fragment {
 
-    private static final String TAG = "HerbyMazowszaQuiz Activity";
+    private static final String TAG = "HerbyMazowszaQuiz: ";
     private static final int FLAGS_IN_QUIZ = 10;
 
     private List<String> fileNameList;
@@ -48,16 +58,16 @@ public class MainActivityFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        super.onCreateView(inflater,container,savedInstanceState);
+        super.onCreateView(inflater, container, savedInstanceState);
 
-        View view = inflater.inflate(R.layout.fragment_main, container,false);
+        View view = inflater.inflate(R.layout.fragment_main, container, false);
 
         fileNameList = new ArrayList<>();
         quizRegionsList = new ArrayList<>();
         random = new SecureRandom();
         handler = new Handler();
 
-        shakeAnimation = AnimationUtils.loadAnimation(getActivity(),R.anim.incorrect_shake);
+        shakeAnimation = AnimationUtils.loadAnimation(getActivity(), R.anim.incorrect_shake);
         shakeAnimation.setRepeatCount(3);
 
         quizLinearLayout = (LinearLayout) view.findViewById(R.id.quizLinearLayout);
@@ -70,18 +80,18 @@ public class MainActivityFragment extends Fragment {
         guessLinearLayouts[3] = (LinearLayout) view.findViewById(R.id.row4linearLayout);
         answerTextView = (TextView) view.findViewById(R.id.answerTextView);
 
-        for (LinearLayout row: guessLinearLayouts) {
+        for (LinearLayout row : guessLinearLayouts) {
             for (int column = 0; column < row.getChildCount(); column++) {
                 Button button = (Button) row.getChildAt(column);
-                button.setOnClickListener(guessButtonlistener);
+                button.setOnClickListener(guessButtonListener);
             }
         }
-        questionNumberTextView.setText(getString(R.string.question,1,FLAGS_IN_QUIZ));
+        questionNumberTextView.setText(getString(R.string.question, 1, FLAGS_IN_QUIZ));
         return view;
     }
 
     public void updateGuessRows(SharedPreferences sharedPreferences) {
-        String choices = sharedPreferences.getString(MainActivity.CHOICES,null);
+        String choices = sharedPreferences.getString(MainActivity.CHOICES, null);
         guessRows = Integer.parseInt(choices) / 2;
 
         for (LinearLayout layout : guessLinearLayouts) {
@@ -93,11 +103,110 @@ public class MainActivityFragment extends Fragment {
         }
     }
 
-    private void updateRegions(SharedPreferences sharedPreferences) {
+    public void updateRegions(SharedPreferences sharedPreferences) {
         regionSet = sharedPreferences.getStringSet(MainActivity.REGIONS, null);
     }
 
     public void resetQuiz() {
+        AssetManager assets = getActivity().getAssets();
+        fileNameList.clear();
 
+        try {
+            for (String region : regionSet) {
+                String[] paths = assets.list(region);
+
+                for (String path : paths) {
+                    fileNameList.add(path.replace(".gif", ""));
+                }
+            }
+        } catch (IOException ex) {
+            Log.e(TAG, "Blad ladowania obrazow herbow", ex);
+        }
+
+        correctAnswers = 0;
+        totalGuesses = 0;
+        quizRegionsList.clear();
+        int flagCounter = 1;
+        int numberOfFlags = fileNameList.size();
+
+        while (flagCounter <= FLAGS_IN_QUIZ) {
+
+            int randomIndex = random.nextInt(numberOfFlags);
+            String fileName = fileNameList.get(randomIndex);
+
+            if (!quizRegionsList.contains(fileName)) {
+                quizRegionsList.add(fileName);
+                ++flagCounter;
+            }
+        }
+        loadNextFlag();
+    }
+
+    private void loadNextFlag() {
+
+        String nextImage = quizRegionsList.remove(0);
+        correctAnswer = nextImage;
+        answerTextView.setText("");
+        questionNumberTextView.setText(getString(R.string.question, (correctAnswers + 1), FLAGS_IN_QUIZ));
+        String region = nextImage.substring(0, nextImage.indexOf("-"));
+        AssetManager assets = getActivity().getAssets();
+
+        try (InputStream inputStreamFlag = assets.open(region + "/" + nextImage + ".gif")) {
+            Drawable drawableFlag = Drawable.createFromStream((inputStreamFlag, nextImage));
+            flagImageView.setImageDrawable(drawableFlag);
+            animate(false);
+        } catch (IOException ex) {
+            Log.e(TAG, "Blad podczas ladowania" + nextImage, ex);
+        }
+
+        Collections.shuffle(fileNameList);
+
+        int correct = fileNameList.indexOf(correctAnswer);
+        fileNameList.add(fileNameList.remove(correct));
+
+        for (int row = 0; row < guessRows; row++) {
+            for (int column = 0; column < 2; column++) {
+                Button guessButton = (Button) guessLinearLayouts[row].getChildAt(column);
+                guessButton.setEnabled(true);
+
+                String fileName = fileNameList.get((row * 2) + column);
+                guessButton.setText(getRegionName(fileName));
+            }
+        }
+
+        int row = random.nextInt(guessRows);
+        int column = random.nextInt(2);
+        LinearLayout randomRow = guessLinearLayouts[row];
+        String regionName = getRegionName(correctAnswer);
+        ((Button) randomRow.getChildAt(column)).setText(regionName);
+    }
+
+    private  String getRegionName(String name) {
+        return name.substring(name.indexOf("-") + 1).replace("_"," ");
+    }
+
+    private void animate(boolean animateOut) {
+        if (correctAnswers == 0) return;
+
+        int centerX = (quizLinearLayout.getLeft() + quizLinearLayout.getRight()) / 2;
+        int centerY = (quizLinearLayout.getTop() + quizLinearLayout.getBottom()) / 2;
+        int radius  = Math.max(quizLinearLayout.getWidth(), quizLinearLayout.getHeight());
+
+        Animator animator;
+
+        if (animateOut) {
+            animator = ViewAnimationUtils.createCircularReveal(quizLinearLayout, centerX, centerY, radius, 0);
+            animator.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationCancel(Animator animation) {
+                    loadNextFlag();
+                }
+            });
+        } else {
+            animator = ViewAnimationUtils.createCircularReveal(quizLinearLayout,centerX,centerY,0,radius);
+        }
+
+        animator.setDuration(500);
+        animator.start();
     }
 }
