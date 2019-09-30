@@ -18,7 +18,7 @@
     <fragment
         android:id="@+id/quizFragment"
         android:name="pl.curlycode.herbymazowszaquiz.MainActivityFragment"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_weight="2"
         tools:layout="@layout/fragment_main" />

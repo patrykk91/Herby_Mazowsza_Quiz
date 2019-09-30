@@ -8,6 +8,16 @@
     tools:context="pl.curlycode.herbymazowszaquiz.MainActivityFragment"
     tools:showIn="@layout/activity_main">
 
+    <TextView
+        android:id="@+id/questionNumberTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="@dimen/spacing"
+        android:text="@string/question"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium" />
+
+
     <ImageView
         android:id="@+id/flagImageView"
         android:layout_width="match_parent"
@@ -21,14 +31,7 @@
         android:contentDescription="@string/image_description"
         android:scaleType="fitCenter" />
 
-    <TextView
-        android:id="@+id/questionNumberTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="@dimen/spacing"
-        android:text="@string/question"
-        android:textAppearance="@android:style/TextAppearance.Material.Medium" />
+
 
 
     <TextView

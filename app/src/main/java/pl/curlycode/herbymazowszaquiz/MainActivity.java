@@ -17,13 +17,12 @@ import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final String CHOICES  = "pref_number_of_choices";
+    public static final String CHOICES = "pref_numberOfChoices";
     public static final String REGIONS = "pref_RegionsToInclude";
 
     private boolean phoneDevice = true;
 
-    private boolean preferencesChange = true;
-
+    private boolean preferencesChanged = true;
 
 
     @Override
@@ -33,33 +32,31 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        PreferenceManager.setDefaultValues(this, R.xml.preferences,false);
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
         PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(preferenceChangeListener);
 
-        int screenSize = getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_XLARGE;
+        int screenSize = getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK;
 
-        if (screenSize == Configuration.SCREENLAYOUT_SIZE_XLARGE || screenSize == Configuration.SCREENLAYOUT_SIZE_LARGE) {
+        if (screenSize == Configuration.SCREENLAYOUT_SIZE_LARGE || screenSize == Configuration.SCREENLAYOUT_SIZE_XLARGE) {
             phoneDevice = false;
         }
 
         if (phoneDevice) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-            MainActivityFragment quizFragment = (MainActivityFragment) getSupportFragmentManager().findFragmentById(R.id.quizFragment);
-            quizFragment.updateGuessRows(PreferenceManager.getDefaultSharedPreferences(this));
-            quizFragment.updateRegions(PreferenceManager.getDefaultSharedPreferences(this));
-            quizFragment.resetQuiz();
-            preferencesChange = false;
         }
     }
-
 
 
     @Override
     protected void onStart() {
         super.onStart();
 
-        if (preferencesChange) {
-
+        if (preferencesChanged) {
+            MainActivityFragment quizFragment = (MainActivityFragment) getSupportFragmentManager().findFragmentById(R.id.quizFragment);
+            quizFragment.updateGuessRows(PreferenceManager.getDefaultSharedPreferences(this));
+            quizFragment.updateRegions(PreferenceManager.getDefaultSharedPreferences(this));
+            quizFragment.resetQuiz();
+            preferencesChanged = false;
         }
     }
 
@@ -87,36 +84,36 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-        private SharedPreferences.OnSharedPreferenceChangeListener preferenceChangeListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
-            @Override
-            public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+    private SharedPreferences.OnSharedPreferenceChangeListener preferenceChangeListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
+        @Override
+        public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 
-                preferencesChange = true;
+            preferencesChanged = true;
 
-                MainActivityFragment quizFragment = (MainActivityFragment) getSupportFragmentManager().findFragmentById(R.id.quizFragment);
+            MainActivityFragment quizFragment = (MainActivityFragment) getSupportFragmentManager().findFragmentById(R.id.quizFragment);
 
-                if (key.equals(CHOICES)) {
-                    quizFragment.updateGuessRows(sharedPreferences);
+            if (key.equals(CHOICES)) {
+                quizFragment.updateGuessRows(sharedPreferences);
 
+                quizFragment.resetQuiz();
+
+            } else if (key.equals(REGIONS)) {
+
+                Set<String> regions = sharedPreferences.getStringSet(REGIONS, null);
+
+                if (regions != null && regions.size() > 0) {
+                    quizFragment.updateRegions(sharedPreferences);
                     quizFragment.resetQuiz();
+                } else {
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    regions.add(getString(R.string.default_region));
+                    editor.putStringSet(REGIONS, regions);
+                    editor.apply();
 
-                } else if (key.equals(REGIONS)) {
-
-                    Set<String> regions = sharedPreferences.getStringSet(REGIONS, null);
-
-                    if (regions != null && regions.size() > 0) {
-                        quizFragment.updateRegions(sharedPreferences);
-                        quizFragment.resetQuiz();
-                    } else {
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        regions.add(getString(R.string.default_region));
-                        editor.putStringSet(REGIONS,null);
-                        editor.apply();
-
-                        Toast.makeText(MainActivity.this, R.string.default_region_message, Toast.LENGTH_SHORT).show();
-                    }
-                    Toast.makeText(MainActivity.this,R.string.restarting_quiz, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, R.string.default_region_message, Toast.LENGTH_SHORT).show();
                 }
+                Toast.makeText(MainActivity.this, R.string.restarting_quiz, Toast.LENGTH_SHORT).show();
             }
-        };
+        }
+    };
 }

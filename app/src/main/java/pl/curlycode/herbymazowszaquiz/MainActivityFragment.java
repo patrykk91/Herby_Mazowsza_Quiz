@@ -2,6 +2,8 @@ package pl.curlycode.herbymazowszaquiz;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.graphics.drawable.Drawable;
@@ -91,9 +93,8 @@ public class MainActivityFragment extends Fragment {
     }
 
     public void updateGuessRows(SharedPreferences sharedPreferences) {
-        String choices = sharedPreferences.getString(MainActivity.CHOICES, null);
+        String choices = sharedPreferences.getString(MainActivity.CHOICES,"4");
         guessRows = Integer.parseInt(choices) / 2;
-
         for (LinearLayout layout : guessLinearLayouts) {
             layout.setVisibility(View.GONE);
         }
@@ -152,7 +153,7 @@ public class MainActivityFragment extends Fragment {
         AssetManager assets = getActivity().getAssets();
 
         try (InputStream inputStreamFlag = assets.open(region + "/" + nextImage + ".gif")) {
-            Drawable drawableFlag = Drawable.createFromStream((inputStreamFlag, nextImage));
+            Drawable drawableFlag = Drawable.createFromStream(inputStreamFlag, nextImage);
             flagImageView.setImageDrawable(drawableFlag);
             animate(false);
         } catch (IOException ex) {
@@ -208,5 +209,62 @@ public class MainActivityFragment extends Fragment {
 
         animator.setDuration(500);
         animator.start();
+    }
+
+
+    private View.OnClickListener guessButtonListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+
+            Button guessButton = (Button) v;
+            String guess = guessButton.getText().toString();
+            String answer = getRegionName(correctAnswer);
+
+            ++totalGuesses;
+
+            if (guess.equals(answer)) {
+                    ++correctAnswers;
+                    answerTextView.setText(answer + "!");
+                    answerTextView.setTextColor(getResources().getColor(R.color.correct_answer, getContext().getTheme()));
+                    disableButtons();
+
+                    if (correctAnswers == FLAGS_IN_QUIZ) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                        builder.setTitle(("Quiz results"));
+                        builder.setMessage(getString(R.string.results, totalGuesses, (1000 / (double) totalGuesses)));
+                        builder.setPositiveButton(R.string.reset_quiz, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                resetQuiz();
+                            }
+                        });
+                        builder.setCancelable(false);
+                        builder.show();
+
+                    } else {
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                animate(true);
+                            }
+                        }, 2000);
+                    }
+
+            } else {
+                flagImageView.startAnimation(shakeAnimation);
+                answerTextView.setText(R.string.incorrect_answer);
+                answerTextView.setTextColor(getResources().getColor(R.color.incorrect_answer, getContext().getTheme()));
+                guessButton.setEnabled(false);
+            }
+        }
+    };
+
+    private void disableButtons() {
+        for (int row = 0; row < guessRows; row++) {
+            LinearLayout guessRow = guessLinearLayouts[row];
+            for (int column = 0; column < 2; column++) {
+                guessRow.getChildAt(column).setEnabled(false);
+            }
+        }
     }
 }
