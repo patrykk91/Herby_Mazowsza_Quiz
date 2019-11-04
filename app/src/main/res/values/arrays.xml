@@ -3,10 +3,12 @@
     
     <string-array name="regions_list">
         <item>Wolominski</item>
+        <item>Minski</item>
     </string-array>
 
     <string-array name="regions_list_for_settings">
         <item>Wolominski</item>
+        <item>Minski</item>
     </string-array>
 
     <string-array name="guesses_list">

@@ -2,7 +2,6 @@ package pl.curlycode.herbymazowszaquiz;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
@@ -21,7 +20,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.fragment.app.Fragment;
+import android.support.v7.app.AlertDialog;
+import android.support.v4.app.Fragment;
+
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -30,6 +31,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 public class MainActivityFragment extends Fragment {
@@ -93,7 +95,7 @@ public class MainActivityFragment extends Fragment {
     }
 
     public void updateGuessRows(SharedPreferences sharedPreferences) {
-        String choices = sharedPreferences.getString(MainActivity.CHOICES,"4");
+        String choices = sharedPreferences.getString(MainActivity.CHOICES,null);
         guessRows = Integer.parseInt(choices) / 2;
         for (LinearLayout layout : guessLinearLayouts) {
             layout.setVisibility(View.GONE);
@@ -109,7 +111,7 @@ public class MainActivityFragment extends Fragment {
     }
 
     public void resetQuiz() {
-        AssetManager assets = getActivity().getAssets();
+        AssetManager assets = Objects.requireNonNull(getActivity()).getAssets();
         fileNameList.clear();
 
         try {
@@ -117,7 +119,7 @@ public class MainActivityFragment extends Fragment {
                 String[] paths = assets.list(region);
 
                 for (String path : paths) {
-                    fileNameList.add(path.replace(".gif", ""));
+                    fileNameList.add(path.replace(".png", ""));
                 }
             }
         } catch (IOException ex) {

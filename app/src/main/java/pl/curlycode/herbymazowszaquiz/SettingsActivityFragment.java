@@ -1,7 +1,5 @@
 package pl.curlycode.herbymazowszaquiz;
 
-import androidx.fragment.app.Fragment;
-
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 import android.view.LayoutInflater;
