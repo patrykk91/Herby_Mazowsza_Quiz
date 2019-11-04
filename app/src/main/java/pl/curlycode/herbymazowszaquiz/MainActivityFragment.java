@@ -154,7 +154,7 @@ public class MainActivityFragment extends Fragment {
         String region = nextImage.substring(0, nextImage.indexOf("-"));
         AssetManager assets = getActivity().getAssets();
 
-        try (InputStream inputStreamFlag = assets.open(region + "/" + nextImage + ".gif")) {
+        try (InputStream inputStreamFlag = assets.open(region + "/" + nextImage + ".png")) {
             Drawable drawableFlag = Drawable.createFromStream(inputStreamFlag, nextImage);
             flagImageView.setImageDrawable(drawableFlag);
             animate(false);
