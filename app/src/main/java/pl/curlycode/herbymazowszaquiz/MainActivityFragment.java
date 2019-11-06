@@ -111,7 +111,7 @@ public class MainActivityFragment extends Fragment {
     }
 
     public void resetQuiz() {
-        AssetManager assets = Objects.requireNonNull(getActivity()).getAssets();
+        AssetManager assets = getActivity().getAssets();
         fileNameList.clear();
 
         try {
@@ -201,7 +201,7 @@ public class MainActivityFragment extends Fragment {
             animator = ViewAnimationUtils.createCircularReveal(quizLinearLayout, centerX, centerY, radius, 0);
             animator.addListener(new AnimatorListenerAdapter() {
                 @Override
-                public void onAnimationCancel(Animator animation) {
+                public void onAnimationEnd(Animator animation) {
                     loadNextFlag();
                 }
             });
