@@ -229,7 +229,7 @@ public class MainActivityFragment extends Fragment {
                     if (correctAnswers == FLAGS_IN_QUIZ) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                         builder.setTitle(("Quiz results"));
-                        builder.setMessage(getString(R.string.results, totalGuesses, (1000 / (double) totalGuesses)));
+                        builder.setMessage(getString(R.string.results, totalGuesses, (500 / (double) totalGuesses)));
                         builder.setPositiveButton(R.string.reset_quiz, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
