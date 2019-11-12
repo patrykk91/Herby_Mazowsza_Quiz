@@ -33,7 +33,7 @@ import java.util.Set;
 public class MainActivityFragment extends Fragment {
 
     private static final String TAG = "HerbyMazowszaQuiz: ";
-    private static final int FLAGS_IN_QUIZ = 10;
+    private static final int FLAGS_IN_QUIZ = 5;
 
     private List<String> fileNameList;
     private List<String> quizRegionsList;
