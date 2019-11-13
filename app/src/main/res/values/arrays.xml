@@ -6,6 +6,20 @@
         <item>Minski</item>
         <item>Wegrowski</item>
         <item>Wyszkowski</item>
+        <item>Bialobrzeski</item>
+        <item>Ciechanowski</item>
+        <item>Garwolinski</item>
+        <item>Gostyninski</item>
+        <item>Grodziski</item>
+        <item>Grojecki</item>
+        <item>Kozienicki</item>
+        <item>Legionowski</item>
+        <item>Lipski</item>
+        <item>Losicki</item>
+        <item>Makowski</item>
+        <item>Mlawski</item>
+        <item>Nowodworski</item>
+        <item>Ostrolecki</item>
     </string-array>
 
     <string-array name="regions_list_for_settings">
@@ -13,6 +27,20 @@
         <item>Minski</item>
         <item>Wegrowski</item>
         <item>Wyszkowski</item>
+        <item>Bialobrzeski</item>
+        <item>Ciechanowski</item>
+        <item>Garwolinski</item>
+        <item>Gostyninski</item>
+        <item>Grodziski</item>
+        <item>Grojecki</item>
+        <item>Kozienicki</item>
+        <item>Legionowski</item>
+        <item>Lipski</item>
+        <item>Losicki</item>
+        <item>Makowski</item>
+        <item>Mlawski</item>
+        <item>Nowodworski</item>
+        <item>Ostrolecki</item>
     </string-array>
 
     <string-array name="guesses_list">
