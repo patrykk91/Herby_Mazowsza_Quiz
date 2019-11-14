@@ -20,6 +20,12 @@
         <item>Mlawski</item>
         <item>Nowodworski</item>
         <item>Ostrolecki</item>
+        <item>Ostrowski</item>
+        <item>Otwocki</item>
+        <item>Piaseczynski</item>
+        <item>Plocki</item>
+        <item>Plonski</item>
+        <item>Pruszkowski</item>
     </string-array>
 
     <string-array name="regions_list_for_settings">
@@ -41,6 +47,12 @@
         <item>Mlawski</item>
         <item>Nowodworski</item>
         <item>Ostrolecki</item>
+        <item>Ostrowski</item>
+        <item>Otwocki</item>
+        <item>Piaseczynski</item>
+        <item>Plocki</item>
+        <item>Plonski</item>
+        <item>Pruszkowski</item>
     </string-array>
 
     <string-array name="guesses_list">
