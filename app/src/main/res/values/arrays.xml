@@ -26,6 +26,10 @@
         <item>Plocki</item>
         <item>Plonski</item>
         <item>Pruszkowski</item>
+        <item>Przasnyski</item>
+        <item>Przysuski</item>
+        <item>Pultuski</item>
+        <item>Radomski</item>
     </string-array>
 
     <string-array name="regions_list_for_settings">
@@ -53,6 +57,10 @@
         <item>Plocki</item>
         <item>Plonski</item>
         <item>Pruszkowski</item>
+        <item>Przasnyski</item>
+        <item>Przysuski</item>
+        <item>Pultuski</item>
+        <item>Radomski</item>
     </string-array>
 
     <string-array name="guesses_list">
