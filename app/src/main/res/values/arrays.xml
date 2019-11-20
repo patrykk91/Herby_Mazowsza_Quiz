@@ -2,10 +2,6 @@
 <resources>
     
     <string-array name="regions_list">
-        <item>Wolominski</item>
-        <item>Minski</item>
-        <item>Wegrowski</item>
-        <item>Wyszkowski</item>
         <item>Bialobrzeski</item>
         <item>Ciechanowski</item>
         <item>Garwolinski</item>
@@ -17,6 +13,7 @@
         <item>Lipski</item>
         <item>Losicki</item>
         <item>Makowski</item>
+        <item>Minski</item>
         <item>Mlawski</item>
         <item>Nowodworski</item>
         <item>Ostrolecki</item>
@@ -29,20 +26,21 @@
         <item>Przasnyski</item>
         <item>Przysuski</item>
         <item>Pultuski</item>
-        <item>Radomski</item>
         <item>Siedlecki</item>
         <item>Sierpecki</item>
         <item>Sochaczewski</item>
         <item>Sokolowski</item>
         <item>Szydlowiecki</item>
         <item>Warszawski_Zachodni</item>
+        <item>Wegrowski</item>
+        <item>Wolominski</item>
+        <item>Wyszkowski</item>
+        <item>Zurominski</item>
+        <item>Zwolenski</item>
+        <item>Zyrardowski</item>
     </string-array>
 
     <string-array name="regions_list_for_settings">
-        <item>Wolominski</item>
-        <item>Minski</item>
-        <item>Wegrowski</item>
-        <item>Wyszkowski</item>
         <item>Bialobrzeski</item>
         <item>Ciechanowski</item>
         <item>Garwolinski</item>
@@ -54,6 +52,7 @@
         <item>Lipski</item>
         <item>Losicki</item>
         <item>Makowski</item>
+        <item>Minski</item>
         <item>Mlawski</item>
         <item>Nowodworski</item>
         <item>Ostrolecki</item>
@@ -72,6 +71,12 @@
         <item>Sokolowski</item>
         <item>Szydlowiecki</item>
         <item>Warszawski_Zachodni</item>
+        <item>Wegrowski</item>
+        <item>Wolominski</item>
+        <item>Wyszkowski</item>
+        <item>Zurominski</item>
+        <item>Zwolenski</item>
+        <item>Zyrardowski</item>
     </string-array>
 
     <string-array name="guesses_list">
